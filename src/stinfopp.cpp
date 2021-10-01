@@ -299,7 +299,9 @@ std::string stinfo::reason()
 // Biscuit handling
 void stinfo::biscuitBake(std::string whatOven, std::string biscuitTray_orfn)
 {
-    if (biscuitTray_orfn.size() <= 0) {
+    if (biscuitTray_orfn.size() > 0)
+        biscuitTray_orfn += ".biscuits";
+    else {
         std::time_t stmp = std::time(nullptr);
         std::tm* lstmp = std::localtime(&stmp);
         char clstmp[32];

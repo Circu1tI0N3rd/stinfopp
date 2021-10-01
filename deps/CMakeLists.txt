@@ -1,6 +1,5 @@
 set(LIBTIDY_ROOT_DIR "${CMAKE_CURRENT_LIST_DIR}/libtidy" PARENT_SCOPE)
 if(IS_DIRECTORY ${LIBTIDY_ROOT_DIR}/)
-        set(CMAKE_BUILD_TYPE "Release" CACHE STRING "Build tidy as release package")
         set(BUILD_SHARED_LIB OFF CACHE BOOL "Not building shared library of tidy")
         set(SUPPORT_CONSOLE_APP OFF CACHE BOOL "Not building tidy console app")
         add_subdirectory(libtidy)
