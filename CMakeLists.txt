@@ -22,7 +22,7 @@ if(WIN32)
     set(CMAKE_CXX_STANDARD_REQUIRED ON) #...is required...
     set(CMAKE_CXX_EXTENSIONS OFF) #...without compiler extensions like gnu++11
 
-    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS OFF)
+    set(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)
   else()
     if (${CMAKE_MAJOR_VERSION}.${CMAKE_MINOR_VERSION} VERSION_LESS 3.1)
         cmake_minimum_required(VERSION 2.8)
