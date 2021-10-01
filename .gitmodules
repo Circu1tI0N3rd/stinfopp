@@ -1,0 +1,4 @@
+[submodule "deps/libtidy"]
+	path = deps/libtidy
+	url = https://github.com/htacg/tidy-html5
+	branch = master
