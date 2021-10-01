@@ -33,15 +33,24 @@ namespace stinfo_e {
     CURLcode curl_assert(const char errBuf[], CURLcode resp, bool justThrow = false);
 
     class CURLerror : public std::exception {
-	private:
-		CURLcode errCode;
-		std::string msg;
-	public:
-		CURLerror(CURLcode code, const char errBuf[]) throw();
+    private:
+        CURLcode errCode;
+        std::string msg;
+    public:
+        CURLerror(CURLcode code, const char errBuf[]) throw();
 
-		virtual const char* what() const throw();
-		virtual const CURLcode whatCode() const throw();
-	};
+        virtual const char* what() const throw();
+        virtual const CURLcode whatCode() const throw();
+    };
+
+    class DIRNOTEXIST : public std::exception {
+    private:
+       std::string msg;
+    public:
+       DIRNOTEXIST(const std::string& path) throw();
+
+       virtual const char* what() const throw();
+    };
 }
 
 #endif // !_STINFO_EXCEPT_H

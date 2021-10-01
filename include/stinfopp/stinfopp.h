@@ -32,11 +32,6 @@
 #include <curl/curl.h>
 #include <curl/options.h>
 
-#define HEADER_ACCEPT_HTML		"Accept: text/html,application/xhtml+xml,application/xml"
-#define HEADER_ACCEPT_ANY		"Accept: */*"
-#define HEADER_ACCEPT_JSON		"Accept: text/html,application/xhtml+xml,application/xml,application/json"
-#define HEADER_CONTENT_TYPE_P   "Content-Type: application/json; charset=UTF-8"
-
 struct postDataPack
 {
     std::string data;
@@ -49,30 +44,43 @@ private:
     char errorBuffer[CURL_ERROR_SIZE];
     CURL* sesh;
     curl_slist* hders;
-    std::ostringstream respStrm;
-    std::string user, tokenPOST, respHdrs, errorStr;
+    std::ostringstream respStrm, tidyDiagStrm, errStrm;
+    std::string user, tokenPOST, respHdrs, biscuitfp;
     postDataPack postData;
-    bool isLogin, globalClean;
+    bool isLogin, globalClean, initialised;
+
 public:
-    stinfo(const std::string& usr, bool global = true);
-    stinfo(const char usr[], bool global = true);
+    stinfo(bool curl_initglobal = true, bool curl_verbose = false);
+    stinfo(const std::string& whatOven, bool curl_initglobal = true, bool curl_verbose = false);
+    stinfo(const char* whatOven, bool curl_initglobal = true, bool curl_verbose = false);
+    stinfo(const std::string& whatOven, const std::string& biscuitTray_orfn, bool curl_initglobal = true, bool curl_verbose = false);
+    stinfo(const char* whatOven, const char* biscuitTray_orfn, bool curl_initglobal = true, bool curl_verbose = false);
 
     ~stinfo();
     void cleanGlobalOnDestroy(bool clean = true);
 
-    bool login(const std::string& pwd);
-    bool login(const char pwd[]);
+    bool login(const std::string& usr, const std::string& pwd);
+    bool login(const char* usr, const char* pwd);
+    bool login(const std::string& usr, const char* pwd);
+    bool login(const char* usr, const std::string& pwd);
     void logout();
 
-    std::string getRawExamTable(void);
-    std::string getRawTimeTable(void);
+    bool getRawExamTable(std::string& jsonstr);
+    bool getRawTimeTable(std::string& jsonstr);
+    bool getRawGrades(std::string& jsonstr);
 
     bool isLoggedIn(void);
     std::string reason();
-private:
-    void init(bool global = true);
+    std::string tidyDiag();
 
-    void setPOST(const std::string& lt, const std::string& exec, const std::string& pwd);
+private:
+    void init(bool curl_initglobal = true, bool curl_verbose = false);
+    bool assertInit();
+    bool assertLogin(bool revert = false);
+    void biscuitBake(std::string whatOven = std::string(), std::string biscuitTray_orfn = std::string());
+    void overbaked(bool ignore_clear = false);
+
+    void setPOST(const std::string& lt, const std::string& exec, const std::string& usr, const std::string& pwd);
     void clearPOST(void);
 
     std::string extractAttrVal(TidyDoc tdoc, TidyTagId tag, TidyAttrId attr, const char val[], TidyAttrId attrx);
@@ -94,11 +102,11 @@ private:
     void slistpop(curl_slist* head);
     void slistfree(curl_slist** head);
 
-    void resetHeaders(const char acceptStr[] = HEADER_ACCEPT_HTML, bool update = true);
+    void resetHeaders(const char acceptStr[], bool update = true);
     bool setToken(TidyDoc tdoc);
     void clearToken(void);
     void updatecURLHeaders(void);
-    void appendContentType(const char content[] = HEADER_CONTENT_TYPE_P);
+    void appendContentType(const char content[]);
 
     std::string getHeaderContent(const std::string& hdrName);
     std::string getHeaderContent(const char hdrName[]);
