@@ -17,7 +17,9 @@ cmake ../ [-DSTINFOPP_BUILD_SHARED=0] [-DCMAKE_BUILD_TYPE=Release]
 
 ## APIs
 ### Constructors:
-```stinfo(bool curl_initglobal = true, bool curl_verbose = false)```
+```
+stinfo(bool curl_initglobal = true, bool curl_verbose = false)
+```
 Basic construction of class.
 If curl_global_init has already been called, set `curl_initglobal` to `false` to avoid re-initialisation of cURL.
 Set `curl_verbose` to `true` for cURL Easy API debug output to `stdout`.
@@ -44,35 +46,53 @@ bool login(const char* username, const std::string& password)
 ```
 Login using plain-text `username` and `password`. Return `true` if successful, `false` otherwise _(refer to `reason()` for details)_.
 
-```void logout()```
+```
+void logout()
+```
 Logout of exisiting account. Return imediately if no user is logged in.
 
-```bool getRawTimeTable(std::string& jsonstr)```
+```
+bool getRawTimeTable(std::string& jsonstr)
+```
 Fetch and store raw JSON-formatted list of schedule(s) under `jsonstr`. Return `true` if successful, `false` otherwise _(refer to `reason()` for details)_.
 
-```bool getRawExamTable(std::string& jsonstr)```
+```
+bool getRawExamTable(std::string& jsonstr)
+```
 Fetch and store raw JSON-formatted list of examination timetable(s) under `jsonstr`. Return `true` if successful, `false` otherwise _(refer to `reason()` for details)_.
 
-```bool getRawGrades(std::string& jsonstr)```
+```
+bool getRawGrades(std::string& jsonstr)
+```
 Fetch and store raw JSON-formatted list of score(s) under `jsonstr`. Return `true` if successful, `false` otherwise _(refer to `reason()` for details)_.
 
-```bool isLoggedIn(void)```
+```
+bool isLoggedIn(void)
+```
 Return `true` if the user is logged in, `false` otherwise.
 
-```std::string reason()```
+```
+std::string reason()
+```
 Return the reason after failure of either `login`, `getRawTimeTable`, `getRawExamTable` or `getRawGrades`.
 
-```std::string tidyDiag()```
+```
+std::string tidyDiag()
+```
 Return diagnostic informations regarding HTML document parsing.
 
 
 ### Exceptions
-```CURLerror```
+```
+CURLerror
+```
 Thrown if any cURL Easy API execution fails.
 - `what()`: return user-friendly string for detail of the exception;
 - `whatCode()`: return the CURLcode of the previously executed cURL Easy function.
 
-```DIRNOTEXIST```
+```
+DIRNOTEXIST
+```
 Thrown if the specified `path_to_store_cookiefile` or current executable folder cannot store cookie file.
 
 
